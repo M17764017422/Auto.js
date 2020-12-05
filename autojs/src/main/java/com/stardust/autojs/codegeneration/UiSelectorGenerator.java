@@ -4,8 +4,11 @@ import com.stardust.automator.UiGlobalSelector;
 import com.stardust.automator.UiObject;
 import com.stardust.util.Consumer;
 
+import androidx.appcompat.widget.AppCompatEditText;
+
 import static com.stardust.autojs.codegeneration.CodeGenerator.FIND_ONE;
 import static com.stardust.autojs.codegeneration.CodeGenerator.UNTIL_FIND;
+import static com.stardust.autojs.codegeneration.CodeGenerator.WAIT_FOR;
 
 /**
  * Created by Stardust on 2017/12/7.
@@ -72,7 +75,13 @@ public class UiSelectorGenerator {
         if (selector == null) {
             return null;
         }
-        return selector + (mSearchMode == FIND_ONE ? ".findOne()" : ".untilFind()");
+        if (mSearchMode == FIND_ONE) {
+            return selector + ".findOne()";
+        } else if (mSearchMode == UNTIL_FIND) {
+            return selector + ".untilFind()";
+        } else {
+            return selector.toString();
+        }
     }
 
 
@@ -108,9 +117,9 @@ public class UiSelectorGenerator {
 
     private boolean shouldStopGeneration(UiGlobalSelector selector) {
         if (mSearchMode == UNTIL_FIND) {
-            return !selector.findAndReturnList(mRoot).isEmpty();
+            return !selector.findAndReturnList(mRoot, 1).isEmpty();
         } else {
-            return selector.findAndReturnList(mRoot).size() == 1;
+            return selector.findAndReturnList(mRoot, 2).size() == 1;
 
         }
     }

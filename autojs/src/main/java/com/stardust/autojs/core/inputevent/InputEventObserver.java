@@ -1,7 +1,7 @@
 package com.stardust.autojs.core.inputevent;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.stardust.autojs.core.record.inputevent.EventFormatException;
@@ -75,11 +75,16 @@ public class InputEventObserver {
         mContext = context;
     }
 
-    public static InputEventObserver getGlobal() {
+    public static InputEventObserver getGlobal(Context context) {
+        if (sGlobal == null) {
+            initGlobal(context);
+        }
         return sGlobal;
     }
 
-    public static void initGlobal(Context context) {
+    private static void initGlobal(Context context) {
+        if (sGlobal != null)
+            return;
         sGlobal = new InputEventObserver(context);
         sGlobal.observe();
     }

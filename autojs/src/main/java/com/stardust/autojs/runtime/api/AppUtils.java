@@ -6,18 +6,16 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 
 import com.stardust.autojs.annotation.ScriptInterface;
 import com.stardust.util.IntentUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-
-import static com.stardust.pio.PFiles.getExtension;
 
 /**
  * Created by Stardust on 2017/4/2.
@@ -27,9 +25,16 @@ public class AppUtils {
 
     private Context mContext;
     private volatile WeakReference<Activity> mCurrentActivity = new WeakReference<>(null);
+    private final String mFileProviderAuthority;
 
     public AppUtils(Context context) {
         mContext = context;
+        mFileProviderAuthority = null;
+    }
+
+    public AppUtils(Context context, String fileProviderAuthority) {
+        mContext = context;
+        mFileProviderAuthority = fileProviderAuthority;
     }
 
     @ScriptInterface
@@ -43,6 +48,11 @@ public class AppUtils {
             return false;
         }
 
+    }
+
+    @ScriptInterface
+    public void sendLocalBroadcastSync(Intent intent) {
+        LocalBroadcastManager.getInstance(mContext).sendBroadcastSync(intent);
     }
 
     @ScriptInterface
@@ -82,6 +92,11 @@ public class AppUtils {
         return IntentUtil.goToAppDetailSettings(mContext, packageName);
     }
 
+    @ScriptInterface
+    public String getFileProviderAuthority() {
+        return mFileProviderAuthority;
+    }
+
     @Nullable
     public Activity getCurrentActivity() {
         Log.d("App", "getCurrentActivity: " + mCurrentActivity.get());
@@ -98,24 +113,14 @@ public class AppUtils {
     public void viewFile(String path) {
         if (path == null)
             throw new NullPointerException("path == null");
-        path = "file://" + path;
-        String ext = getExtension(path);
-        String mimeType = TextUtils.isEmpty(ext) ? "*/*" : MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
-        mContext.startActivity(new Intent(Intent.ACTION_VIEW)
-                .setDataAndType(Uri.parse(path), mimeType)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        IntentUtil.viewFile(mContext, path, mFileProviderAuthority);
     }
 
     @ScriptInterface
     public void editFile(String path) {
         if (path == null)
             throw new NullPointerException("path == null");
-        path = "file://" + path;
-        String ext = getExtension(path);
-        String mimeType = TextUtils.isEmpty(ext) ? "*/*" : MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
-        mContext.startActivity(new Intent(Intent.ACTION_EDIT)
-                .setDataAndType(Uri.parse(path), mimeType)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        IntentUtil.editFile(mContext, path, mFileProviderAuthority);
     }
 
     @ScriptInterface

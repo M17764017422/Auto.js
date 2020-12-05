@@ -1,26 +1,13 @@
 package com.stardust.autojs.runtime.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.stardust.autojs.core.looper.MainThreadProxy;
 import com.stardust.autojs.core.looper.TimerThread;
-import com.stardust.autojs.engine.RhinoJavaScriptEngine;
 import com.stardust.autojs.runtime.ScriptRuntime;
-import com.stardust.concurrent.VolatileBox;
 import com.stardust.concurrent.VolatileDispose;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +23,7 @@ public class Threads {
     private final Thread mMainThread;
     private MainThreadProxy mMainThreadProxy;
     private int mSpawnCount = 0;
+    private boolean mExit = false;
 
     public Threads(ScriptRuntime runtime) {
         mRuntime = runtime;
@@ -55,23 +43,23 @@ public class Threads {
     }
 
     public TimerThread start(Runnable runnable) {
-        TimerThread thread = startThread(runnable);
+        TimerThread thread = createThread(runnable);
         synchronized (mThreads) {
+            if (mExit) {
+                throw new IllegalStateException("script exiting");
+            }
             mThreads.add(thread);
-            thread.setName(thread.getName() + " (Spawn-" + mSpawnCount + ")");
+            thread.setName(mMainThread.getName() + " (Spawn-" + mSpawnCount + ")");
             mSpawnCount++;
+            thread.start();
         }
-        thread.start();
         return thread;
     }
 
     @NonNull
-    private TimerThread startThread(Runnable runnable) {
+    private TimerThread createThread(Runnable runnable) {
         return new TimerThread(mRuntime, mRuntime.timers.getMaxCallbackUptimeMillisForAllThreads(),
-                () -> {
-                    ((RhinoJavaScriptEngine) mRuntime.engines.myEngine()).createContext();
-                    runnable.run();
-                }
+                runnable
         ) {
             @Override
             protected void onExit() {
@@ -108,6 +96,12 @@ public class Threads {
         }
     }
 
+    public void exit() {
+        synchronized (mThreads) {
+            shutDownAll();
+            mExit = true;
+        }
+    }
 
     public boolean hasRunningThreads() {
         synchronized (mThreads) {

@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.stardust.scriptdroid.ui.edit.EditActivity">
+    tools:context="org.autojs.autojs.ui.edit.EditActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -16,9 +16,10 @@
         <com.stardust.theme.widget.ThemeColorToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:theme="@style/ToolBarStyle"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:title="@string/_app_name"
+            android:title="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <LinearLayout
@@ -27,7 +28,7 @@
                 android:layout_gravity="right"
                 android:orientation="horizontal">
 
-                <com.stardust.scriptdroid.ui.widget.ToolbarMenuItem
+                <org.autojs.autojs.ui.widget.ToolbarMenuItem
                     android:id="@+id/edit"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
@@ -35,7 +36,7 @@
                     app:icon_color="@android:color/white"
                     app:text="@string/text_edit"/>
 
-                <com.stardust.scriptdroid.ui.widget.ToolbarMenuItem
+                <org.autojs.autojs.ui.widget.ToolbarMenuItem
                     android:id="@+id/run"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
@@ -49,7 +50,7 @@
 
         </com.stardust.theme.widget.ThemeColorToolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                    xmlns:tools="http://schemas.android.com/tools"
