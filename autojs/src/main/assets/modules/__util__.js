@@ -19,6 +19,25 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+exports.extend = (function () {
+  var extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+  return function (d, b) {
+      extendStatics(d, b);
+      function __() { this.constructor = d; }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+})();
+
+exports.java = require("__java_util__");
+
+exports.__assignFunctions__ = function(src, target, functions) {
+    for(let f of functions){
+        target[f] = src[f].bind(src);
+    }
+}
+
 var formatRegExp = /%[sdj%]/g;
 exports.format = function(f) {
   if (!isString(f)) {
@@ -213,9 +232,8 @@ function arrayToHash(array) {
 function formatValue(ctx, value, recurseTimes) {
   // Provide a hook for user-specified inspect functions.
   // Check that value is an object with an inspect function on it
-  if (ctx.customInspect &&
-      value &&
-      isFunction(value.inspect) &&
+  if (ctx.customInspect && value && value instanceof Object &&
+      ("inspect" in value) && isFunction(value.inspect) &&
       // Filter out the util module, it's inspect function is special
       value.inspect !== exports.inspect &&
       // Also filter out any prototype objects using the circular check.
@@ -225,6 +243,10 @@ function formatValue(ctx, value, recurseTimes) {
       ret = formatValue(ctx, ret, recurseTimes);
     }
     return ret;
+  }
+
+  if(value && isFunction(value.getClass) && value.getClass().isArray()){
+        return formatJavaArray(value);
   }
 
   // Primitive types cannot have properties
@@ -345,6 +367,9 @@ function formatPrimitive(ctx, value) {
     return ctx.stylize('null', 'null');
 }
 
+function formatJavaArray(javaArray){
+    return java.util.Arrays.toString(javaArray);
+}
 
 function formatError(value) {
   return '[' + Error.prototype.toString.call(value) + ']';

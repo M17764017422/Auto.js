@@ -1,6 +1,6 @@
 package com.stardust.autojs.core.eventloop;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 
 import com.stardust.autojs.core.looper.Timer;
@@ -19,7 +19,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 
 public class EventEmitter {
-
 
     private static class ListenerWrapper {
         Object listener;
@@ -41,7 +40,7 @@ public class EventEmitter {
         }
 
         private void ensureListenersNotAtLimit() {
-            if (mMaxListeners != 0 && mListenersMap.size() >= mMaxListeners) {
+            if (mMaxListeners != 0 && mListenerWrappers.size() >= mMaxListeners) {
                 throw new ScriptException(new TooManyListenersException("max = " + mMaxListeners));
             }
         }
@@ -60,7 +59,7 @@ public class EventEmitter {
                     mBridges.callFunction(listenerWrapper.listener, EventEmitter.this, args);
                 }
                 if (listenerWrapper.isOnce) {
-                    listenerIterator.remove();
+                    mListenerWrappers.remove(listenerWrapper);
                 }
             }
         }
@@ -114,7 +113,6 @@ public class EventEmitter {
         getListeners(eventName).add(listener, true);
         return this;
     }
-
     @NonNull
     private Listeners getListeners(String eventName) {
         Listeners listeners = mListenersMap.get(eventName);
@@ -144,7 +142,7 @@ public class EventEmitter {
     }
 
     public String[] eventNames() {
-        return mListenersMap.keySet().toArray(new String[mListenersMap.size()]);
+        return mListenersMap.keySet().toArray(new String[0]);
     }
 
     public int listenerCount(String eventName) {

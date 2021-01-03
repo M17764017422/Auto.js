@@ -1,18 +1,30 @@
 
-module.exports = function(__runtime__, scope){
+module.exports = function(runtime, global){
     var floaty = {};
 
-    floaty.window = function(layout){
-        if(typeof(layout) == 'xml'){
-            layout = layout.toString();
+    floaty.window = function(xml){
+        if(typeof(xml) == 'xml'){
+            xml = xml.toXMLString();
         }
-        return wrap(__runtime__.floaty.window(layout));
+        return wrap(runtime.floaty.window(function(context, parent){
+             runtime.ui.layoutInflater.setContext(context);
+             return runtime.ui.layoutInflater.inflate(xml.toString(), parent, true);
+        }));
     }
 
-    floaty.__view_cache__ = {};
+    floaty.rawWindow = function(xml){
+        if(typeof(xml) == 'xml'){
+            xml = xml.toXMLString();
+        }
+        return wrap(runtime.floaty.rawWindow(function(context, parent){
+             runtime.ui.layoutInflater.setContext(context);
+             return runtime.ui.layoutInflater.inflate(xml.toString(), parent, true);
+        }));
+    }
 
     function wrap(window){
-        var proxyObject = new com.stardust.autojs.rhino.ProxyJavaObject(scope, window, window.getClass());
+        var proxyObject = new com.stardust.autojs.rhino.ProxyJavaObject(global, window, window.getClass());
+        var viewCache = {};
         proxyObject.__proxy__ = {
             set: function(name, value){
                 window[name] = value;
@@ -20,13 +32,8 @@ module.exports = function(__runtime__, scope){
             get: function(name) {
                var value = window[name];
                if(typeof(value) == 'undefined'){
-                   value = floaty.__view_cache__[name];
                    if(!value){
-                        value = window.getView(name);
-                        if(value){
-                            value = ui.__decorate__(value);
-                            floaty.__view_cache__[name] = value;
-                        }
+                        value = window.findView(name);
                    }
                    if(!value){
                       value = undefined;
@@ -37,6 +44,8 @@ module.exports = function(__runtime__, scope){
         };
         return proxyObject;
     }
+    
+    floaty.closeAll = runtime.floaty.closeAll.bind(runtime.floaty);
 
     return floaty;
 }
