@@ -547,15 +547,14 @@ var automator = require('./__automator__')(runtime, global);
 - **GitHub Actions**：支持CI/CD自动构建
 
 ### 6.2 fake_idlefish 分支（闲鱼伪装分支）
-- **包名**：`com.taobao.idlefish`
-- **伪装目的**：规避淘宝等应用的无障碍检测，通过 `AutoJs.fakeIdlefish` 实现
+- **包名**：`com.taobao.idlefish.x`
+- **伪装目的**：规避淘宝等应用的无障碍检测
 - **应用图标**：使用 `@drawable/autojs_fake_idle`（闲鱼风格）
-- **功能限制**：
-  - OpenCV 版本降级至 4.5.5
-  - 移除 ONNXRuntime 和 PaddleLite 2.13-rc 相关功能
-  - 恢复 tess-two OCR 支持
-  - 移除 GitHub Actions 打包功能
-- **APK 后缀**：`.x`（替代 `.modify`）
+- **实际差异**：
+  - ~~OpenCV 版本降级至 4.5.5~~ **错误！实际仍为 4.8.0**
+  - ~~移除 AI 功能~~ **错误！代码验证显示 AI 功能完整保留**
+  - 移除 GitHub Actions 打包功能 ✅
+- **APK 后缀**：`.x`
 - **版本标识**：`4.1.25.0702.alpha FakeIdleFish`
 - **补丁名**：`困鱼`
 
@@ -673,8 +672,6 @@ private void appendWindow(FloatyWindow window) {
 ```
 
 **结论**：删除 `AccessibilityFloatyService` 是清理无用代码，**功能无任何损失**，同时还减少了被检测的特征。
-| WrapFactory.isJavaPrimitiveWrap | `false` | **未设置** | RhinoJavaScriptEngine.kt |
-| WrapFactory String处理 | ❌ 无 | ✅ **有** | RhinoJavaScriptEngine.kt |
 
 **⚠️ 重大发现（代码验证）**：
 
@@ -1071,8 +1068,10 @@ Auto.js 项目是一个功能强大的 Android 自动化工具，通过 JavaScri
 | 分支 | 包名 | 特点 |
 |------|------|------|
 | main | org.autojs.autojs.modify | 功能完整，含所有AI功能 |
-| fake_idlefish | com.taobao.idlefish | 闲鱼伪装，移除部分AI功能 |
-| fake_litiaotiao | com.litiaotiao.app | 李跳跳伪装，核心自动化功能 |
+| fake_idlefish | com.taobao.idlefish.x | 闲鱼伪装，AI功能代码保留 |
+| fake_litiaotiao | com.litiaotiao.app | 李跳跳伪装，AI功能代码保留 |
+
+**⚠️ 重要说明**：伪装分支仅更改包名和图标以规避检测，AI功能代码（OpenCV 4.8.0、ONNX、YOLO、PaddleOCR）完整保留。README中声称"移除AI功能"与实际代码不符。
 
 ### 11.5 ES6+ 语法开发指南（基于71项全量测试结果）
 

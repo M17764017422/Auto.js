@@ -156,7 +156,6 @@ Auto.js 是一个支持无障碍服务的 Android 平台上的 JavaScript IDE，
   - PaddleOCR (27文件)
 
 **伪装分支实际差异**：
-- ~~OpenCV降级至4.5.5~~ **错误！实际均为4.8.0**
 - 移除GitHub Actions
 - 移除AccessibilityFloatyService（死代码清理，功能无损失）
 - 包名和图标伪装
