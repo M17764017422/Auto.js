@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>tts | Auto.js 4.1.0 文档</title>
+  <link rel="stylesheet" href="assets/fonts.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/sh.css">
+  <link rel="canonical" href="https://nodejs.org/api/tts.html">
+</head>
+<body class="alt apidoc" id="api-section-tts">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="返回首页">
+          Auto.js
+        </a>
+      </div>
+      <ul>
+<li><a class="nav-documentation" href="documentation.html">关于本文档</a></li>
+<li><a class="nav-http-www-w3school-com-cn-js-pro_js_syntax-asp" href="http://www.w3school.com.cn/js/pro_js_syntax.asp">W3CSchool - ECMAScript教程</a></li>
+<li><a class="nav-http-es6-ruanyifeng-com-README" href="http://es6.ruanyifeng.com/#README">阮一峰 - ECMAScript 6教程</a></li>
+</ul>
+<div class="line"></div>
+
+<ul>
+<li><a class="nav-overview" href="overview.html">Overview - 综述</a></li>
+<li><a class="nav-qa" href="qa.html">Q&amp;A - 常见问题</a></li>
+<li><a class="nav-app" href="app.html">App - 应用</a></li>
+<li><a class="nav-console" href="console.html">Console - 控制台</a></li>
+<li><a class="nav-coordinates-based-automation" href="coordinates-based-automation.html">CoordinatesBasedAutomation - 基于坐标的操作</a></li>
+<li><a class="nav-device" href="device.html">Device - 设备</a></li>
+<li><a class="nav-dialogs" href="dialogs.html">Dialogs - 对话框</a></li>
+<li><a class="nav-engines" href="engines.html">Engines - 脚本引擎</a></li>
+<li><a class="nav-events" href="events.html">Events - 事件与监听</a></li>
+<li><a class="nav-floaty" href="floaty.html">Floaty - 悬浮窗</a></li>
+<li><a class="nav-files" href="files.html">Files - 文件系统</a></li>
+<li><a class="nav-globals" href="globals.html">Globals - 一般全局函数</a></li>
+<li><a class="nav-http" href="http.html">Http - HTTP</a></li>
+<li><a class="nav-images" href="images.html">Images - 图片与图色处理</a></li>
+<li><a class="nav-keys" href="keys.html">Keys - 按键模拟</a></li>
+<li><a class="nav-media" href="media.html">Media - 多媒体</a></li>
+<li><a class="nav-modules" href="modules.html">Modules - 模块</a></li>
+<li><a class="nav-widgets-based-automation" href="widgets-based-automation.html">WidgetsBasedAutomation - 基于控件的操作</a></li>
+<li><a class="nav-sensors" href="sensors.html">Sensors - 传感器</a></li>
+<li><a class="nav-shell" href="shell.html">Shell - Shell命令</a></li>
+<li><a class="nav-storages" href="storages.html">Storages - 本地存储</a></li>
+<li><a class="nav-threads" href="threads.html">Threads - 多线程</a></li>
+<li><a class="nav-timers" href="timers.html">Timers - 定时器</a></li>
+<li><a class="nav-tts active" href="tts.html">TTS - 文本转语音</a></li>
+<li><a class="nav-ui" href="ui.html">UI - 用户界面</a></li>
+<li><a class="nav-https-developer-mozilla-org-zh-CN-docs-Mozilla-Projects-Rhino-Scripting_Java" href="https://developer.mozilla.org/zh-CN/docs/Mozilla/Projects/Rhino/Scripting_Java">Work with Java - 调用Java API</a></li>
+</ul>
+<div class="line"></div>
+
+<ul>
+<li><a class="nav-https-github-com-hyb1996-NoRootScriptDroid" href="https://github.com/hyb1996/NoRootScriptDroid">GitHub项目 &amp; Issue提交</a></li>
+<li><a class="nav-http-autojs-org" href="http://autojs.org">Auto.js交流社区</a></li>
+</ul>
+
+    </div>
+
+    <div id="column1" data-id="tts" class="interior">
+      <header>
+        <h1>Auto.js 4.1.0 文档</h1>
+        <div id="gtoc">
+          <p>
+            <a href="index.html" name="toc">索引</a> |
+            <a href="all.html">查看全部</a>
+          </p>
+        </div>
+        <hr>
+      </header>
+
+      <div id="toc">
+        <h2>目录</h2>
+        <ul>
+<li><span class="stability_undefined"><a href="#tts">tts - 文本转语音</a></span><ul>
+<li><span class="stability_undefined"><a href="#tts_tts_speak_text_options">tts.speak(text[, options])</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_speakasync_text_options_callback">tts.speakAsync(text[, options], callback)</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_preview_text">tts.preview(text)</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_setlanguage_language">tts.setLanguage(language)</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_getlanguage">tts.getLanguage()</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_getavailablelanguages">tts.getAvailableLanguages()</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_setpitch_pitch">tts.setPitch(pitch)</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_setspeechrate_speechrate">tts.setSpeechRate(speechRate)</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_setvolume_volume">tts.setVolume(volume)</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_pause">tts.pause()</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_stop">tts.stop()</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_isspeaking">tts.isSpeaking()</a></span></li>
+<li><span class="stability_undefined"><a href="#tts_tts_shutdown">tts.shutdown()</a></span></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+
+      <div id="apicontent">
+        <h1>tts - 文本转语音<span><a class="mark" href="#tts" id="tts">#</a></span></h1>
+<p>tts模块提供了文本转语音（Text-to-Speech）功能，可以在设备上朗读指定的文本。</p>
+<h2>tts.speak(text[, options])<span><a class="mark" href="#tts_tts_speak_text_options" id="tts_tts_speak_text_options">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>text</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a> 要朗读的文本</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&lt;Object&gt;</a> 选项
+<ul>
+<li><code>pitch</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 音调 (0.0-2.0, 默认1.0)</li>
+<li><code>speechRate</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 语速 (0.0-2.0, 默认1.0)</li>
+<li><code>volume</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 音量 (0.0-1.0, 默认1.0)</li>
+</ul>
+</li>
+</ul>
+</div><p>朗读指定的文本。这会将当前朗读队列中的其他文本清除，然后朗读新的文本。</p>
+<pre><code>// 基本用法
+tts.speak("你好，Auto.js");
+
+// 使用选项
+tts.speak("这是一段较慢的语音", {
+    speechRate: 0.8,  // 语速较慢
+    pitch: 1.1        // 音调稍高
+});
+</code></pre><h2>tts.speakAsync(text[, options], callback)<span><a class="mark" href="#tts_tts_speakasync_text_options_callback" id="tts_tts_speakasync_text_options_callback">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>text</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a> 要朗读的文本</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&lt;Object&gt;</a> 选项
+<ul>
+<li><code>pitch</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 音调 (0.0-2.0, 默认1.0)</li>
+<li><code>speechRate</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 语速 (0.0-2.0, 默认1.0)</li>
+<li><code>volume</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 音量 (0.0-1.0, 默认1.0)</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&lt;function&gt;</a> 朗读完成后的回调函数，参数为error</li>
+</ul>
+</div><p>异步朗读指定的文本。朗读完成后调用回调函数。</p>
+<pre><code>tts.speakAsync("这是一段异步朗读的文本", function(error) {
+    if (error) {
+        console.error("朗读失败: " + error.message);
+    } else {
+        console.log("朗读完成");
+    }
+});
+</code></pre><h2>tts.preview(text)<span><a class="mark" href="#tts_tts_preview_text" id="tts_tts_preview_text">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>text</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a> 要预览朗读的文本</li>
+</ul>
+</div><p>预览朗读文本，通常用于短文本的快速朗读。</p>
+<pre><code>tts.preview("短文本");
+</code></pre><h2>tts.setLanguage(language)<span><a class="mark" href="#tts_tts_setlanguage_language" id="tts_tts_setlanguage_language">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>language</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a> 语言代码，如 'zh-CN', 'en-US', 'ja-JP' 等</li>
+<li>返回 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&lt;boolean&gt;</a> 是否设置成功</li>
+</ul>
+</div><p>设置TTS引擎的语言。这会影响后续朗读的语音语言。</p>
+<pre><code>// 设置为中文
+tts.setLanguage('zh-CN');
+
+// 设置为英文
+tts.setLanguage('en-US');
+</code></pre><h2>tts.getLanguage()<span><a class="mark" href="#tts_tts_getlanguage" id="tts_tts_getlanguage">#</a></span></h2>
+<div class="signature"><ul>
+<li>返回 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Object" class="type">&lt;Object&gt;</a> 当前语言设置</li>
+</ul>
+</div><p>获取当前TTS引擎的语言设置。</p>
+<pre><code>var currentLanguage = tts.getLanguage();
+</code></pre><h2>tts.getAvailableLanguages()<span><a class="mark" href="#tts_tts_getavailablelanguages" id="tts_tts_getavailablelanguages">#</a></span></h2>
+<div class="signature"><ul>
+<li>返回 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&lt;Array&gt;</a> 支持的语言列表</li>
+</ul>
+</div><p>获取设备支持的TTS语言列表。</p>
+<pre><code>var languages = tts.getAvailableLanguages();
+console.log("支持的语言数量: " + languages.length);
+for (var i = 0; i &lt; Math.min(5, languages.length); i++) {
+    console.log("- " + languages[i].displayName + " (" + languages[i].language + ")");
+}
+</code></pre><h2>tts.setPitch(pitch)<span><a class="mark" href="#tts_tts_setpitch_pitch" id="tts_tts_setpitch_pitch">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>pitch</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 音调值 (0.0-2.0, 默认1.0)</li>
+</ul>
+</div><p>设置TTS引擎的音调。较高的值会使声音更尖锐，较低的值会使声音更低沉。</p>
+<pre><code>tts.setPitch(1.2);  // 设置较高的音调
+</code></pre><h2>tts.setSpeechRate(speechRate)<span><a class="mark" href="#tts_tts_setspeechrate_speechrate" id="tts_tts_setspeechrate_speechrate">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>speechRate</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 语速 (0.0-2.0, 默认1.0)</li>
+</ul>
+</div><p>设置TTS引擎的语速。较高的值会加快语速，较低的值会减慢语速。</p>
+<pre><code>tts.setSpeechRate(1.5);  // 设置较快的语速
+</code></pre><h2>tts.setVolume(volume)<span><a class="mark" href="#tts_tts_setvolume_volume" id="tts_tts_setvolume_volume">#</a></span></h2>
+<div class="signature"><ul>
+<li><code>volume</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&lt;number&gt;</a> 音量 (0.0-1.0, 默认1.0)</li>
+</ul>
+</div><p>设置TTS引擎的音量。该值会在下次朗读时生效。</p>
+<pre><code>tts.setVolume(0.8);  // 设置80%的音量
+</code></pre><h2>tts.pause()<span><a class="mark" href="#tts_tts_pause" id="tts_tts_pause">#</a></span></h2>
+<p>暂停当前的朗读。实际上会停止当前朗读。</p>
+<pre><code>tts.pause();  // 停止当前朗读
+</code></pre><h2>tts.stop()<span><a class="mark" href="#tts_tts_stop" id="tts_tts_stop">#</a></span></h2>
+<p>停止当前的朗读。</p>
+<pre><code>tts.stop();  // 停止当前朗读
+</code></pre><h2>tts.isSpeaking()<span><a class="mark" href="#tts_tts_isspeaking" id="tts_tts_isspeaking">#</a></span></h2>
+<div class="signature"><ul>
+<li>返回 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&lt;boolean&gt;</a> 是否正在朗读</li>
+</ul>
+</div><p>检查TTS引擎是否正在朗读文本。</p>
+<pre><code>if (tts.isSpeaking()) {
+    console.log("正在朗读中...");
+} else {
+    console.log("没有在朗读");
+}
+</code></pre><h2>tts.shutdown()<span><a class="mark" href="#tts_tts_shutdown" id="tts_tts_shutdown">#</a></span></h2>
+<p>关闭TTS引擎并释放资源。在脚本结束时会自动调用此方法。</p>
+<pre><code>tts.shutdown();  // 关闭TTS引擎
+</code></pre>
+      </div>
+    </div>
+  </div>
+  <script src="assets/sh_main.js"></script>
+  <script src="assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+  <!-- __TRACKING__ -->
+</body>
+</html>
